@@ -3,8 +3,8 @@ import * as express from 'express';
 import * as cors from 'cors';
 import * as helmet from 'helmet';
 import * as dotenv from 'dotenv';
-import routes from './routes'
-import 'reflect-metadata'
+import routes from './routes';
+import 'reflect-metadata';
 
 dotenv.config();
 
@@ -28,7 +28,7 @@ class App {
     }
 
     private setUpRoutes (): void {
-        this.express.use('/', routes)
+        this.express.use('/', routes);
     }
 
     private static async setUpDatabase (): Promise<Connection> {
