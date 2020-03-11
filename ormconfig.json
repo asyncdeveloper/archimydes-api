@@ -48,5 +48,30 @@
             "migrationsDir": "src/migration",
             "subscribersDir": "src/subscriber"
         }
+    },
+    {
+        "name": "production",
+        "type": "mysql",
+        "host": "localhost",
+        "port": 3306,
+        "username": "root",
+        "password": "",
+        "database": "archimydes",
+        "synchronize": false,
+        "logging": false,
+        "entities": [
+            "build/entity/**/*.ts"
+        ],
+        "migrations": [
+            "build/migration/**/*.ts"
+        ],
+        "subscribers": [
+            "build/subscriber/**/*.ts"
+        ],
+        "cli": {
+            "entitiesDir": "build/entity",
+            "migrationsDir": "build/migration",
+            "subscribersDir": "build/subscriber"
+        }
     }
 ]

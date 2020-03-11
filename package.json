@@ -9,8 +9,10 @@
    },
    "dependencies": {
       "body-parser": "^1.18.1",
+      "cors": "^2.8.5",
       "dotenv": "^8.2.0",
       "express": "^4.15.4",
+      "helmet": "^3.21.3",
       "mysql": "^2.14.1",
       "nodemon": "^2.0.2",
       "reflect-metadata": "^0.1.10",
@@ -18,8 +20,8 @@
    },
    "scripts": {
       "build": "tsc",
-      "start": "NODE_ENV=production node build/index.js ",
-      "dev": "nodemon -e ts -w ./src -x ts-node src/index.ts",
+      "prod": "NODE_ENV=production npm run build && node build/server.js",
+      "dev": "nodemon -e ts -w ./src -x ts-node src/server.ts",
       "migration:create": "ts-node ./node_modules/.bin/typeorm migration:generate -n $NAME -c development",
       "migration:run": "ts-node ./node_modules/.bin/typeorm migration:run -c development",
       "migration:revert": "ts-node ./node_modules/.bin/typeorm migration:revert -c development"
