@@ -15,6 +15,9 @@
       "body-parser": "^1.18.1"
    },
    "scripts": {
-      "start": "ts-node src/index.ts"
+      "start": "ts-node src/index.ts",
+      "migration:create": "ts-node ./node_modules/.bin/typeorm migration:generate -n $NAME -c development",
+      "migration:run": "ts-node ./node_modules/.bin/typeorm migration:run -c development",
+      "migration:revert": "ts-node ./node_modules/.bin/typeorm migration:revert -c development"
    }
 }
