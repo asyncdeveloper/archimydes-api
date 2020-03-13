@@ -117,4 +117,37 @@ describe('Story CRUD ', function () {
         done();
     });
 
+    it('allows a user view all created stories', async (done) => {
+        const story = {
+            "summary": "A New One",
+            "description": "My Des",
+            "types" : "BUGFIX",
+            "complexity": "difficult",
+            "estimated_time": "22:00:11",
+            "cost": "100",
+            "owner": loggedInUser.id,
+            "state": "WAITING_AUTHORIZATION"
+        };
+
+        //Create multiple stories
+         await request(app.express)
+            .post('/api/v1/story')
+            .set('Authorization', `Bearer ${token}`)
+            .send(story);
+
+        await request(app.express)
+            .post('/api/v1/story')
+            .set('Authorization', `Bearer ${token}`)
+            .send(story);
+
+        const response : any = await request(app.express)
+            .get('/api/v1/story')
+            .set('Authorization', `Bearer ${token}`);
+
+        expect(response.statusCode).toBe(200);
+        expect(response.body.data.length).toBe(2);
+
+        done();
+    });
+
 });

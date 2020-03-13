@@ -5,10 +5,12 @@ import {checkIfAuthorized} from "../middlewares/checkIfAuthorized";
 
 const router = Router();
 
-router.post('/', checkJwt , StoryController.create);
-
 router.patch('/:storyId/assign',[ checkJwt, checkIfAuthorized ], StoryController.assign);
 
 router.put('/:storyId', [ checkJwt, checkIfAuthorized ], StoryController.update);
+
+router.post('/', checkJwt , StoryController.create);
+
+router.get('/', checkJwt , StoryController.index);
 
 export default router;

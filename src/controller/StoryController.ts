@@ -2,6 +2,7 @@ import {Request, Response} from 'express';
 import {validate} from 'class-validator';
 import {User} from '../entity/User';
 import {Story} from "../entity/Story";
+import {getRepository} from "typeorm";
 
 class StoryController {
 
@@ -121,6 +122,17 @@ class StoryController {
 
         return res.status(204).json();
     };
+
+    public index = async (req: Request, res: Response): Promise<Response> => {
+        const authUserId: string = res.locals.jwtPayload.userId;
+
+        const data = await getRepository(Story)
+            .createQueryBuilder("stories")
+            .where("ownerId = :id", { id: authUserId })
+            .getMany();
+
+        return res.status(200).json({ data });
+    }
 
 }
 
