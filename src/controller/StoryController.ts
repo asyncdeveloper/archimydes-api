@@ -43,7 +43,7 @@ class StoryController {
         return res.status(201).json(story);
     };
 
-    public update = async (req: Request, res: Response): Promise<Response> => {
+    public assign = async (req: Request, res: Response): Promise<Response> => {
         const { storyId } = req.params;
         const { reviewerId } = req.body;
 
@@ -56,14 +56,6 @@ class StoryController {
         if(! story ) {
             return res.status(409).json({
                 error: { message: 'Story does not exist' }
-            });
-        }
-
-        //Is the logged in user the owner?
-        const authUser = res.locals.jwtPayload;
-        if(authUser.userId  !== story.owner.id) {
-            return res.status(403).json({
-                error: { message: 'You are not authorized to perform this action' }
             });
         }
 
@@ -83,9 +75,51 @@ class StoryController {
         }
 
         story.reviewer =  reviewer;
-        await story.save();
+        try {
+            await story.save();
+        } catch (err) {
+            return res.status(500).json({
+                error: { message: "Something went wrong. It's our fault and we are working on it :)" }
+            });
+        }
 
         return res.status(204).json(story);
+    };
+
+    public update = async (req: Request, res: Response): Promise<Response> => {
+        const { summary, description, types, complexity, estimated_time, cost, state } = req.body;
+
+        const storyId : string = req.params.storyId;
+        let story: Story = await Story.findOne({ relations: ["owner"], where: { id: storyId } });
+
+        if(! story ) {
+            return res.status(409).json({
+                error: { message: 'Story does not exist' }
+            });
+        }
+
+        story.summary = summary;
+        story.description = description;
+        story.types = types;
+        story.complexity = complexity;
+        story.estimated_time = estimated_time;
+        story.cost = cost;
+        story.state = state;
+
+        const errors = await validate(story);
+        if (errors.length > 0) {
+            return res.status(400).json({ error: errors });
+        }
+
+        try {
+            await story.save();
+        } catch (err) {
+            return res.status(500).json({
+                error: { message: "Something went wrong. It's our fault and we are working on it :)" }
+            });
+        }
+
+        return res.status(204).json();
     };
 
 }

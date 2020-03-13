@@ -106,7 +106,7 @@ describe('Story CRUD ', function () {
             });
 
         const response : any =  await request(app.express)
-            .patch(`/api/v1/story/${createStoryResponse.body.id}`)
+            .patch(`/api/v1/story/${createStoryResponse.body.id}/assign`)
             .set('Authorization', `Bearer ${token}`)
             .send({
                 "reviewerId": admin.id
