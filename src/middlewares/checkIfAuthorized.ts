@@ -14,7 +14,7 @@ export const checkIfAuthorized = async (req: Request, res: Response, next: NextF
     const story: Story = await Story.findOne({ relations: ["owner"], where: { id: storyId } });
 
     if(! story ) {
-        return res.status(409).json({
+        return res.status(404).json({
             error: { message: 'Story does not exist' }
         });
     }

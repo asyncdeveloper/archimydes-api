@@ -25,7 +25,7 @@ class AdminController {
         let story: Story = await Story.findOne({ relations: ["owner"], where: { id: storyId } });
 
         if(! story ) {
-            return res.status(409).json({ error: { message: 'Story does not exist' } });
+            return res.status(404).json({ error: { message: 'Story does not exist' } });
         }
 
         story.summary = summary;

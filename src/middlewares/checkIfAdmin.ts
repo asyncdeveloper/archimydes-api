@@ -9,8 +9,6 @@ export const checkIfAdmin = async (req: Request, res: Response, next: NextFuncti
         });
     }
 
-    console.log(authUser);
-
     if(authUser.role !== "admin") {
         return res.status(403).json({
             error: { message: 'You are not authorized to perform this action' }

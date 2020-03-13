@@ -18,7 +18,7 @@ export const checkJwt = (req: Request, res: Response, next: NextFunction) => {
   const [scheme, token] = parts;
 
   if (!/^Bearer$/i.test(scheme)) {
-    return res.status(401).send({ error: { message: 'Token malformatted' } });
+    return res.status(401).json({ error: { message: 'Token malformatted' } });
   }
 
   let jwtPayload;
@@ -27,7 +27,7 @@ export const checkJwt = (req: Request, res: Response, next: NextFunction) => {
     jwtPayload = <any>jwt.verify(token, config.jwtSecret);
     res.locals.jwtPayload = jwtPayload
   } catch (error) {
-    return res.status(401).send({ error: { message: 'Not authenticated: ' + error.message } });
+    return res.status(401).json({ error: { message: 'Not authenticated: ' + error.message } });
   }
 
   next();

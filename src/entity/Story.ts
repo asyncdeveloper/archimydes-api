@@ -37,6 +37,8 @@ export enum State {
  *        type: string
  *      owner:
  *        type: User
+ *      state:
+ *        type: string
  *      reviewer:
  *        type: User
  *      types:

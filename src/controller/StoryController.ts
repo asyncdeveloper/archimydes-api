@@ -28,7 +28,7 @@ class StoryController {
         const userCount: number = await User.count({ where: { id: owner } });
 
         if(userCount < 1 ) {
-            return res.status(409).json({
+            return res.status(400).json({
                 error: { message: 'Owner does not exist' }
             });
         }
@@ -55,7 +55,7 @@ class StoryController {
         });
 
         if(! story ) {
-            return res.status(409).json({
+            return res.status(404).json({
                 error: { message: 'Story does not exist' }
             });
         }
@@ -64,13 +64,13 @@ class StoryController {
         const reviewer: User = await User.findOne({ relations: ["role"], where: { id: reviewerId } });
 
         if(! reviewer) {
-            return res.status(409).json({
+            return res.status(400).json({
                 error: { message: 'Invalid reviewer' }
             });
         }
 
         if(reviewer.role.name !== "admin") {
-            return res.status(409).json({
+            return res.status(400).json({
                 error: { message: 'Reviewer must be an admin user' }
             });
         }
@@ -94,7 +94,7 @@ class StoryController {
         let story: Story = await Story.findOne({ relations: ["owner"], where: { id: storyId } });
 
         if(! story ) {
-            return res.status(409).json({
+            return res.status(404).json({
                 error: { message: 'Story does not exist' }
             });
         }
