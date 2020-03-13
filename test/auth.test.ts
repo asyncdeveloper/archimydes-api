@@ -11,6 +11,9 @@ describe('Authentication ', function () {
         connection =  await app.connection;
         await connection.runMigrations();
 
+    });
+
+    beforeEach(async () => {
         //Seed Roles
         const role1: Role = new Role();
         role1.name = 'admin';
@@ -19,7 +22,6 @@ describe('Authentication ', function () {
         const role2: Role = new Role();
         role2.name = 'user';
         await role2.save();
-
     });
 
     afterEach(async () => {
@@ -92,7 +94,8 @@ describe('Authentication ', function () {
     });
 
     it('allows registered user login with credentials', async (done) => {
-        const role = await Role.findOne({ where: { id: 1 } });
+        const role = await Role.findOne({ where: { name: 'user' } });
+
         const user: User = new User();
         user.name = "John Doe";
         user.password = "12345111";

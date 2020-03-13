@@ -4,7 +4,7 @@ import {Connection} from "typeorm";
 import {Role} from "../src/entity/Role";
 import {User} from "../src/entity/User";
 
-describe('Authentication ', function () {
+describe('Story CRUD ', function () {
     let connection: Connection;
     let token: string;
     let loggedInUser: User;
@@ -12,6 +12,9 @@ describe('Authentication ', function () {
     beforeAll(async () => {
         connection =  await app.connection;
         await connection.runMigrations();
+    });
+
+    beforeEach(async () => {
 
         //Seed Roles
         const role1: Role = new Role();
@@ -21,9 +24,7 @@ describe('Authentication ', function () {
         const role2: Role = new Role();
         role2.name = 'user';
         await role2.save();
-    });
 
-    beforeEach(async () => {
         const userRole = await Role.findOne({ where: { name: 'user' } });
 
         //Regular User
@@ -35,7 +36,10 @@ describe('Authentication ', function () {
         user.hashPassword();
         await user.save();
 
-        loggedInUser = user;
+        loggedInUser = await User.findOne({
+            relations: ["role"],
+            where: { email :  "johndoe@example.com" }
+        });
 
         const response: any = await request(app.express)
             .post('/api/v1/auth/login')
@@ -64,7 +68,7 @@ describe('Authentication ', function () {
                 "complexity": "difficult",
                 "estimated_time": "22:00:11",
                 "cost": "2001",
-                "owner": "1",
+                "owner": loggedInUser.id,
                 "state": "WAITING_AUTHORIZATION"
             });
 

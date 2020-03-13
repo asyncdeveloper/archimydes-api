@@ -35,7 +35,6 @@ class StoryController {
         try {
             await story.save();
         } catch (err) {
-            console.log(err);
             return res.status(500).json({
                 error: { message: "Something went wrong. It's our fault and we are working on it :)" }
             });

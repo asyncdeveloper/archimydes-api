@@ -53,7 +53,9 @@ export class User extends  BaseEntity {
     password: string;
 
     @IsNotEmpty()
-    @OneToOne(type => Role)
+    @OneToOne(type => Role, {
+        eager: true
+    })
     @JoinColumn()
     role: Role;
 
