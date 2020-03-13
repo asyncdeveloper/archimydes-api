@@ -62,7 +62,10 @@ class AuthController {
 
         let user: User;
         try {
-            user = await User.findOneOrFail({ where: { email } })
+            user = await User.findOneOrFail({
+                relations: ['role'],
+                where: { email }
+            });
         } catch (error) {
             return res.status(401).json({
                 error: { message: 'Invalid credentials' }
@@ -74,7 +77,7 @@ class AuthController {
         }
 
         const token = jwt.sign(
-            { userId: user.id, email: user.email, roleId: user.role },
+            { userId: user.id, role: user.role.name },
             config.jwtSecret,
             { expiresIn: '3h' }
         );

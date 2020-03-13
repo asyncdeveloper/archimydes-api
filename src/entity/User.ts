@@ -4,6 +4,7 @@ import {
     CreateDateColumn,
     Entity,
     JoinColumn,
+    OneToMany,
     OneToOne,
     PrimaryGeneratedColumn,
     UpdateDateColumn,
@@ -11,6 +12,7 @@ import {
 import {IsEmail, IsNotEmpty, Length} from 'class-validator'
 import * as bcrypt from 'bcryptjs'
 import {Role} from "./Role";
+import {Story} from "./Story";
 
 /**
  * @swagger
@@ -54,6 +56,9 @@ export class User extends  BaseEntity {
     @OneToOne(type => Role)
     @JoinColumn()
     role: Role;
+
+    @OneToMany(type => Story, story => story.owner)
+    stories: Story[];
 
     @Column()
     @CreateDateColumn()

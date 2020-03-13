@@ -5,7 +5,7 @@ const router = Router();
 
 /**
  * @swagger
- * /register:
+ * 'auth/register':
  *   post:
  *     tags:
  *       - User
@@ -48,7 +48,7 @@ router.post('/register', AuthController.register);
 
 /**
  * @swagger
- * '/login':
+ * 'auth/login':
  *    post:
  *      tags:
  *        - auth

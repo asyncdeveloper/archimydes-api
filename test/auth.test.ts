@@ -40,7 +40,7 @@ describe('Authentication ', function () {
         };
 
         const response: any = await request(app.express)
-            .post('/api/v1/register')
+            .post('/api/v1/auth/register')
             .send(userData);
 
         expect(response.body).toHaveProperty('name');
@@ -60,7 +60,7 @@ describe('Authentication ', function () {
         };
 
         const response: any = await request(app.express)
-            .post('/api/v1/register')
+            .post('/api/v1/auth/register')
             .send(userData);
 
         expect(response.statusCode).toBe(400);
@@ -78,11 +78,11 @@ describe('Authentication ', function () {
         };
 
         await request(app.express)
-            .post('/api/v1/register')
+            .post('/api/v1/auth/register')
             .send(userData);
 
         const response: any = await request(app.express)
-            .post('/api/v1/register')
+            .post('/api/v1/auth/register')
             .send(userData);
 
         expect(response.statusCode).toBe(409);
@@ -102,7 +102,7 @@ describe('Authentication ', function () {
         await user.save();
 
         const response: any = await request(app.express)
-            .post('/api/v1/login')
+            .post('/api/v1/auth/login')
             .send({ 'email' : user.email, 'password' : '12345111' });
 
         expect(response.statusCode).toBe(200);

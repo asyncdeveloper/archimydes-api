@@ -6,13 +6,13 @@ export const checkJwt = (req: Request, res: Response, next: NextFunction) => {
   const authHeader = <string>req.headers.authorization;
 
   if (!authHeader) {
-    return res.status(401).json({ error: { 'message': 'No token provider' } });
+    return res.status(401).json({ error: { 'message': 'No token provided' } });
   }
 
   const parts = authHeader.split(' ');
 
   if (!(parts.length === 2)) {
-    return res.status(401).json({ error: { message: 'Token error' } });
+    return res.status(401).json({ error: { message: 'Token invalid' } });
   }
 
   const [scheme, token] = parts;
@@ -29,11 +29,6 @@ export const checkJwt = (req: Request, res: Response, next: NextFunction) => {
   } catch (error) {
     return res.status(401).send({ error: { message: 'Not authenticated: ' + error.message } });
   }
-
-  const { userId, username } = jwtPayload;
-  const newToken = jwt.sign({ userId, username }, config.jwtSecret, { expiresIn: '3h' });
-
-  res.setHeader('token', newToken);
 
   next();
 };
