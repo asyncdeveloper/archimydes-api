@@ -10,7 +10,7 @@ class AdminController {
 
         const data = await getRepository(Story)
             .createQueryBuilder("stories")
-            .where("reviewerId = :id AND state != :state", {
+            .where("reviewerId = :id AND state = :state", {
                 id: adminUserId, state: State.WAITING_AUTHORIZATION
             })
             .getMany();
