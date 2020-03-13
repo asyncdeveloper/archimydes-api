@@ -1,16 +1,18 @@
 import {Request, Response} from 'express'
 import {validate} from 'class-validator';
 import {User} from '../entity/User';
+import {Role} from "../entity/Role";
 
 class AuthController {
 
     public register = async (req: Request, res: Response): Promise<Response> => {
-        const { name, email, password } = req.body;
+        const { name, email, password, roleId } = req.body;
 
         const user: User = new User();
         user.name = name;
         user.password = password;
         user.email = email;
+        user.role = roleId;
 
         const errors = await validate(user);
         if (errors.length > 0) {
@@ -23,6 +25,14 @@ class AuthController {
         if(count > 0 ) {
             return res.status(409).json({
                 error: { message: 'user email already in use' }
+            });
+        }
+
+        //Check for Role
+        const roleCount: number = await Role.count({ where: { id: roleId } });
+        if(roleCount < 1 ) {
+            return res.status(409).json({
+                error: { message: 'Role does not exist' }
             });
         }
 

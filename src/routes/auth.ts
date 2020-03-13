@@ -29,15 +29,18 @@ const router = Router();
  *             password:
  *               type: string
  *               format: password
+ *             role:
+ *               type: string
  *         required:
  *           - name
  *           - email
  *           - password
+ *           - role
  *     responses:
  *       '201':
  *         description: User created successfully
  *       '400':
- *         description: Invalid properties, Name, Email and Password Required
+ *         description: Invalid properties, name, email, role and password required
  *       '409':
  *         description: Email already exist
  */

@@ -19,11 +19,12 @@ describe('Authentication ', function () {
         await connection.close();
     });
 
-    it('allows user register with name, email and password', async (done) => {
+    it('allows user register with name, email, role and password', async (done) => {
         const userData = {
             'name': 'John Doe',
             'email': 'johndoe@example.com',
-            'password': '12345'
+            'password': '12345',
+            'role': '1'
         };
 
         const response: any = await request(app.express)
@@ -33,6 +34,7 @@ describe('Authentication ', function () {
         expect(response.body).toHaveProperty('name');
         expect(response.body).toHaveProperty('id');
         expect(response.body).toHaveProperty('email');
+        expect(response.body).toHaveProperty('role');
 
         done();
     });
@@ -41,7 +43,8 @@ describe('Authentication ', function () {
         const userData = {
             'name': 'e',
             'email': 'johndoem',
-            'password': '125'
+            'password': '125',
+            'role': 'aaa'
         };
 
         const response: any = await request(app.express)
@@ -58,7 +61,8 @@ describe('Authentication ', function () {
         const userData = {
             'name': 'John Doe',
             'email': 'johndoe@example.com',
-            'password': '12345'
+            'password': '12345',
+            'role': '1',
         };
 
         await request(app.express)

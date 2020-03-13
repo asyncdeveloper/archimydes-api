@@ -1,6 +1,16 @@
-import {BaseEntity, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn,} from "typeorm";
+import {
+    BaseEntity,
+    Column,
+    CreateDateColumn,
+    Entity,
+    JoinColumn,
+    OneToOne,
+    PrimaryGeneratedColumn,
+    UpdateDateColumn,
+} from "typeorm";
 import {IsEmail, IsNotEmpty, Length} from 'class-validator'
 import * as bcrypt from 'bcryptjs'
+import {Role} from "./Role";
 
 /**
  * @swagger
@@ -39,6 +49,11 @@ export class User extends  BaseEntity {
     @Length(5, 255)
     @IsNotEmpty()
     password: string;
+
+    @IsNotEmpty()
+    @OneToOne(type => Role)
+    @JoinColumn()
+    role: Role;
 
     @Column()
     @CreateDateColumn()
