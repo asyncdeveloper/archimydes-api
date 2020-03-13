@@ -10,15 +10,16 @@ dotenv.config();
 
 class App {
     public express: express.Application;
+    public connection: any ;
 
     public constructor () {
-        App.setUpDatabase();
-
         this.express = express();
 
         this.setUpMiddleware();
 
         this.setUpRoutes();
+
+        this.connection= App.setUpDatabase();
     }
 
     private setUpMiddleware (): void {
@@ -32,9 +33,9 @@ class App {
     }
 
     private static async setUpDatabase (): Promise<Connection> {
-        const config = await getConnectionOptions(process.env.NODE_ENV);
+        const config = await getConnectionOptions(process.env.NODE_ENV || 'production');
         return await createConnection({ ...config , 'name': 'default' });
     }
 }
 
-export default new App().express
+export default new App();

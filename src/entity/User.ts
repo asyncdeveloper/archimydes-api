@@ -1,18 +1,55 @@
-import {Entity, PrimaryGeneratedColumn, Column} from "typeorm";
+import {BaseEntity, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn,} from "typeorm";
+import {IsEmail, IsNotEmpty, Length} from 'class-validator'
+import * as bcrypt from 'bcryptjs'
 
-@Entity()
-export class User {
+/**
+ * @swagger
+ * definitions:
+ *  User:
+ *    type: object
+ *    properties:
+ *      id:
+ *        type: integer
+ *        format: int64
+ *      email:
+ *        type: string
+ *      name:
+ *        type: string
+ *      password:
+ *        type: string
+ */
+@Entity({ name: 'users' })
+export class User extends  BaseEntity {
 
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn({ unsigned: true })
     id: number;
 
     @Column()
-    firstName: string;
+    @IsNotEmpty()
+    @Length(4, 255)
+    name: string;
 
     @Column()
-    lastName: string;
+    @IsEmail()
+    @IsNotEmpty()
+    @Length(4, 255)
+    email: string;
 
     @Column()
-    age: number;
+    @Length(5, 255)
+    @IsNotEmpty()
+    password: string;
+
+    @Column()
+    @CreateDateColumn()
+    created_at: Date;
+
+    @Column()
+    @UpdateDateColumn()
+    updated_at: Date;
+
+    hashPassword (): void {
+        this.password = bcrypt.hashSync(this.password, 10)
+    }
 
 }

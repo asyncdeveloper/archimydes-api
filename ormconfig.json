@@ -6,7 +6,7 @@
         "port": 3306,
         "username": "root",
         "password": "",
-        "database": "archimydes",
+        "database": "archimydes-test",
         "synchronize": false,
         "logging": false,
         "entities": [
