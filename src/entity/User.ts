@@ -67,4 +67,8 @@ export class User extends  BaseEntity {
         this.password = bcrypt.hashSync(this.password, 10)
     }
 
+    checkIfUnEncryptedPasswordIsValid (unEncryptedPassword: string): boolean {
+        return bcrypt.compareSync(unEncryptedPassword, this.password)
+    }
+
 }

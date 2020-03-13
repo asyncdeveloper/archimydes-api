@@ -46,4 +46,30 @@ const router = Router();
  */
 router.post('/register', AuthController.register);
 
+/**
+ * @swagger
+ * '/login':
+ *    post:
+ *      tags:
+ *        - auth
+ *      summary: Login
+ *      description: Log into the API and get token.
+ *      operationId: login
+ *      produces:
+ *      - application/json
+ *      parameters:
+ *      - in: body
+ *        name: body
+ *        description: Email and Password.
+ *        required: true
+ *      responses:
+ *        '200':
+ *          description: Returns User including token
+ *          schema:
+ *            $ref: "#/definitions/User"
+ *        '401':
+ *          description: Invalid login credentials
+ */
+router.post('/login', AuthController.login);
+
 export default router;

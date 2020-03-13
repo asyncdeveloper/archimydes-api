@@ -1,6 +1,8 @@
 import * as request from 'supertest';
 import app from "../src/app";
 import {Connection} from "typeorm";
+import {Role} from "../src/entity/Role";
+import {User} from "../src/entity/User";
 
 describe('Authentication ', function () {
     let connection: Connection;
@@ -8,6 +10,16 @@ describe('Authentication ', function () {
     beforeAll(async () => {
         connection =  await app.connection;
         await connection.runMigrations();
+
+        //Seed Roles
+        const role1: Role = new Role();
+        role1.name = 'admin';
+        await role1.save();
+
+        const role2: Role = new Role();
+        role2.name = 'user';
+        await role2.save();
+
     });
 
     afterEach(async () => {
@@ -75,6 +87,27 @@ describe('Authentication ', function () {
 
         expect(response.statusCode).toBe(409);
         expect(response.body).toHaveProperty('error');
+
+        done();
+    });
+
+    it('allows registered user login with credentials', async (done) => {
+        const role = await Role.findOne({ where: { id: 1 } });
+        const user: User = new User();
+        user.name = "John Doe";
+        user.password = "12345111";
+        user.role = role;
+        user.email = "johndoe@example.com";
+        user.hashPassword();
+        await user.save();
+
+        const response: any = await request(app.express)
+            .post('/api/v1/login')
+            .send({ 'email' : user.email, 'password' : '12345111' });
+
+        expect(response.statusCode).toBe(200);
+        expect(response.body).toHaveProperty('token');
+        expect(response.body).toHaveProperty('user');
 
         done();
     });
