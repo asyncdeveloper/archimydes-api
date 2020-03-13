@@ -36,7 +36,7 @@
    },
    "scripts": {
       "build": "tsc",
-      "prod": "NODE_ENV=production npm run build && node build/server.js",
+      "prod": "npm run build && NODE_ENV=production node build/server.js",
       "dev": "nodemon -e ts -w ./src -x ts-node src/server.ts",
       "test": "NODE_ENV=test jest --detectOpenHandles",
       "migration:create": "ts-node ./node_modules/.bin/typeorm migration:generate -n $NAME -c development",

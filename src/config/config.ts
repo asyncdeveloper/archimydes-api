@@ -1,3 +1,3 @@
 export default {
-  jwtSecret: '123!@#nbvhgfytrm^&&'
+  jwtSecret: process.env.JWT_SECRET || 'dummyJWTT'
 }
