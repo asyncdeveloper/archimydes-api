@@ -3,9 +3,8 @@ import {
     Column,
     CreateDateColumn,
     Entity,
-    JoinColumn,
+    ManyToOne,
     OneToMany,
-    OneToOne,
     PrimaryGeneratedColumn,
     UpdateDateColumn,
 } from "typeorm";
@@ -53,10 +52,9 @@ export class User extends  BaseEntity {
     password: string;
 
     @IsNotEmpty()
-    @OneToOne(type => Role, {
+    @ManyToOne(type => Role,{
         eager: true
     })
-    @JoinColumn()
     role: Role;
 
     @OneToMany(type => Story, story => story.owner)

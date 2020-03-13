@@ -1,5 +1,14 @@
-import {BaseEntity, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn,} from "typeorm";
+import {
+    BaseEntity,
+    Column,
+    CreateDateColumn,
+    Entity,
+    OneToMany,
+    PrimaryGeneratedColumn,
+    UpdateDateColumn,
+} from "typeorm";
 import {IsNotEmpty, Length} from 'class-validator'
+import {User} from "./User";
 
 /**
  * @swagger
@@ -23,6 +32,9 @@ export class Role extends BaseEntity {
     @IsNotEmpty()
     @Length(4, 255)
     name: string;
+
+    @OneToMany(type => User, user => user.role)
+    users: User[];
 
     @Column()
     @CreateDateColumn()

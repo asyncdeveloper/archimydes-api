@@ -10,13 +10,13 @@ import {
 import {IsEnum, IsNotEmpty, Length} from 'class-validator'
 import {User} from "./User";
 
-enum Types {
+export enum Types {
     ENHANCEMENT = "ENHANCEMENT",
     BUGFIX = "BUGFIX",
     DEVELOPMENT = "DEVELOPMENT"
 }
 
-enum State {
+export enum State {
     REJECTED = "REJECTED",
     APPROVED = "APPROVED",
     WAITING_AUTHORIZATION = "WAITING_AUTHORIZATION"
@@ -67,10 +67,14 @@ export class Story extends  BaseEntity {
     description: string;
 
     @IsNotEmpty()
-    @ManyToOne(type => User, user => user.stories)
+    @ManyToOne(type => User, user => user.stories, {
+        eager: true
+    })
     owner: User;
 
-    @ManyToOne(type => User)
+    @ManyToOne(type => User, {
+        eager: true
+    })
     reviewer: User;
 
     @IsEnum(Types)
@@ -108,7 +112,7 @@ export class Story extends  BaseEntity {
 
     @Column({
         type: "tinyint",
-        default: false
+        default: null
     })
     is_active: boolean;
 

@@ -1,13 +1,13 @@
 import {Request, Response} from 'express';
 import {validate} from 'class-validator';
 import {User} from '../entity/User';
-import {Story} from "../entity/Story";
+import {State, Story} from "../entity/Story";
 import {getRepository} from "typeorm";
 
 class StoryController {
 
     public create = async (req: Request, res: Response): Promise<Response> => {
-        const { summary, description, owner, types, complexity, estimated_time, cost, state } = req.body;
+        const { summary, description, owner, types, complexity, estimated_time, cost } = req.body;
 
         const story: Story = new Story();
         story.summary = summary;
@@ -17,7 +17,7 @@ class StoryController {
         story.complexity = complexity;
         story.estimated_time = estimated_time;
         story.cost = cost;
-        story.state = state;
+        story.state = State.WAITING_AUTHORIZATION;
 
         const errors = await validate(story);
         if (errors.length > 0) {
